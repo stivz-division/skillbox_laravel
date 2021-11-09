@@ -24,6 +24,11 @@ class Article extends Model
         return 'slug';
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function scopePublished(Builder $query)
     {
         $query->where('is_published', true);

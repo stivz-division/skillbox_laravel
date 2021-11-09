@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\Services\TagsSynchronizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -28,11 +29,12 @@ class ArticleController extends Controller
     }
 
 
-    public function store(ArticleRequest $request)
+    public function store(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer)
     {
         $validData = $request->validated();
-        Article::create($validData);
-        return redirect(route('home'))->with('Статья добавлена');
+        $article = Article::create($validData);
+        $tagsSynchronizer->sync(collect(explode(',', $validData['tags'])), $article);
+        return redirect(route('home'))->with('success', 'Статья добавлена');
 
 
     }
@@ -56,18 +58,17 @@ class ArticleController extends Controller
      * @param Article $article
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer, Article $article)
     {
         $validData = $request->validated();
+        $tagsSynchronizer->sync(collect(explode(',', $validData['tags'])), $article);
         $article->update($validData);
         return back()->with('success', 'Данные изменены!');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Article $article)
     {

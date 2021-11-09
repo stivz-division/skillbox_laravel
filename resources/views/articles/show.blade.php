@@ -17,6 +17,10 @@
 
         </article>
 
+        <div>
+            @each('articles.includes.tag', $article->tags, 'tag')
+        </div>
+
         <hr>
 
         <a href="{{ route('home') }}">Вернуть к списку статей</a>
