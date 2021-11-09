@@ -26,10 +26,6 @@ Route::name('contacts.')->prefix('contacts')->group(function() {
     Route::post('/store', [ContactsController::class, 'store'])->name('store');
 });
 
-Route::name('articles.')->prefix('articles')->group(function() {
-    Route::get('/create', [ArticleController::class, 'create'])->name('create');
-    Route::post('/store', [ArticleController::class, 'store'])->name('store');
-    Route::get('/{article:slug}', [ArticleController::class, 'show'])->name('show');
-});
+Route::resource('articles', ArticleController::class);
 
 Route::get('/admin/feedback', [FeedbackController::class, 'index'])->name('admin.index');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -26,20 +28,11 @@ class ArticleController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-
-        $validData = $this->validate(\request(), [
-            'slug' => 'required|unique:articles',
-            'title' => 'required|min:5|max:100',
-            'mini_description' => 'required|max:255',
-            'description' => 'required',
-            'is_published' => 'required|in:1,0'
-        ]);
-
+        $validData = $request->validated();
         Article::create($validData);
-
-        return redirect('/');
+        return redirect(route('home'))->with('Статья добавлена');
 
 
     }
@@ -50,36 +43,36 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('articles.edit', compact('article'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $request
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $validData = $request->validated();
+        $article->update($validData);
+        return back()->with('success', 'Данные изменены!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+
+        return redirect(route('home'))->with('success', 'Статья удалена');
     }
 }
