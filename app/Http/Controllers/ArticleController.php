@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\Services\TagsSynchronizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,12 +28,17 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-
-    public function store(ArticleRequest $request)
+    /**
+     * @param ArticleRequest $request
+     * @param TagsSynchronizer $tagsSynchronizer
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer)
     {
         $validData = $request->validated();
-        Article::create($validData);
-        return redirect(route('home'))->with('Статья добавлена');
+        $article = Article::create($validData);
+        $tagsSynchronizer->sync($request->getTags(), $article);
+        return redirect(route('home'))->with('success', 'Статья добавлена');
 
 
     }
@@ -53,21 +59,21 @@ class ArticleController extends Controller
 
     /**
      * @param ArticleRequest $request
+     * @param TagsSynchronizer $tagsSynchronizer
      * @param Article $article
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer, Article $article)
     {
         $validData = $request->validated();
+        $tagsSynchronizer->sync($request->getTags(), $article);
         $article->update($validData);
         return back()->with('success', 'Данные изменены!');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Article $article
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Article $article)
     {

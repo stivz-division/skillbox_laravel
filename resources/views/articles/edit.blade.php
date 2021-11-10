@@ -6,7 +6,7 @@
     <div class="col-md-8">
 
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
-            Создать статью
+            Редактирование статьи
         </h3>
 
         @include('layout.success')
@@ -20,6 +20,7 @@
             @include('articles.includes.mini_description', ['value' => $article->mini_description])
             @include('articles.includes.description', ['value' => $article->description])
             @include('articles.includes.is_published', ['value' => $article->is_published])
+            @include('articles.includes.tags', ['value' => $article->tags->pluck('name')->implode(',')])
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
 

@@ -18,6 +18,7 @@
             @include('articles.includes.mini_description')
             @include('articles.includes.description')
             @include('articles.includes.is_published')
+            @include('articles.includes.tags')
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
 
