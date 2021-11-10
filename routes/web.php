@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::name('contacts.')->prefix('contacts')->group(function() {
@@ -31,5 +34,5 @@ Route::resource('articles', ArticleController::class);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
-Route::get('/admin/feedback', [FeedbackController::class, 'index'])->name('admin.index');
+Route::get('/admin/feedback', [FeedbackController::class, 'index'])->middleware(['auth'])->name('admin.index');
 
