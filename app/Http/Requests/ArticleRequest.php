@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Collection;
 
 class ArticleRequest extends FormRequest
 {
@@ -31,5 +32,10 @@ class ArticleRequest extends FormRequest
             'is_published' => 'required|in:1,0',
             'tags' => 'nullable|string'
         ];
+    }
+
+    public function getTags(): Collection
+    {
+        return collect(explode(',', $this->tags));
     }
 }

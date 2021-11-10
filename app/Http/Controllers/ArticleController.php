@@ -28,12 +28,16 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-
+    /**
+     * @param ArticleRequest $request
+     * @param TagsSynchronizer $tagsSynchronizer
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer)
     {
         $validData = $request->validated();
         $article = Article::create($validData);
-        $tagsSynchronizer->sync(collect(explode(',', $validData['tags'])), $article);
+        $tagsSynchronizer->sync($request->getTags(), $article);
         return redirect(route('home'))->with('success', 'Статья добавлена');
 
 
@@ -55,13 +59,14 @@ class ArticleController extends Controller
 
     /**
      * @param ArticleRequest $request
+     * @param TagsSynchronizer $tagsSynchronizer
      * @param Article $article
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer, Article $article)
     {
         $validData = $request->validated();
-        $tagsSynchronizer->sync(collect(explode(',', $validData['tags'])), $article);
+        $tagsSynchronizer->sync($request->getTags(), $article);
         $article->update($validData);
         return back()->with('success', 'Данные изменены!');
     }

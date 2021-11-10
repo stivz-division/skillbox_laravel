@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\HasTags;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 
-class Article extends Model
+class Article extends Model implements HasTags
 {
     use HasFactory;
 
@@ -37,5 +39,10 @@ class Article extends Model
     public function scopeSlug(Builder $builder, $slug)
     {
         $builder->where('slug', $slug);
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
     }
 }

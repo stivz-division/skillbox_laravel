@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Contracts\HasTags;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -9,10 +10,9 @@ use Illuminate\Support\Collection;
 class TagsSynchronizer
 {
 
-    public function sync(Collection $tags, Model $model)
+    public function sync(Collection $tags, HasTags $model)
     {
-        /** @var Collection $articleTags */
-        $articleTags = $model->tags->keyBy('name');
+        $articleTags = $model->getTags()->keyBy('name');
 
         $formTags = $tags->keyBy(function ($item) {
             return $item;
