@@ -13,6 +13,8 @@ return [
     |
     */
 
+    'admin_email' => env('ADMIN_EMAIL'),
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -174,6 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         \App\Providers\ViewServiceProvider::class
 
     ],

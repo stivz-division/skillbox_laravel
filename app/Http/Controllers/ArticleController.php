@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateArticle;
+use App\Events\DeleteArticle;
+use App\Events\UpdateArticle;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\TagsSynchronizer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -39,6 +39,9 @@ class ArticleController extends Controller
 
         $article = Article::create($validData);
         $tagsSynchronizer->sync($request->getTags(), $article);
+
+        event(new CreateArticle($article));
+
         return redirect(route('home'))->with('success', 'Статья добавлена');
 
 
@@ -71,6 +74,13 @@ class ArticleController extends Controller
         $validData = $request->validated();
         $tagsSynchronizer->sync($request->getTags(), $article);
         $article->update($validData);
+
+
+        /*
+            Метод updated не срабатывает в Observe
+        */
+        event(new UpdateArticle($article));
+
         return back()->with('success', 'Данные изменены!');
     }
 
@@ -80,8 +90,14 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
+        /*
+             Метод deleted срабатывает в Observe,
+             но не отпрвляет mail и перенаправляет на уже удаленную статью
+             что вызывает 404 ошибку
+        */
+        event(new DeleteArticle($article));
 
+        $article->delete();
         return redirect(route('home'))->with('success', 'Статья удалена');
     }
 }

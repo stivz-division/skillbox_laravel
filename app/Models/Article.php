@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UpdateArticle;
 use App\Models\Contracts\HasTags;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,13 @@ class Article extends Model implements HasTags
         'mini_description',
         'description',
         'is_published'
+    ];
+
+    protected $dispatchesEvents = [
+        /*
+            Не срабатывает также как и в Observe
+        */
+//        'updated' => UpdateArticle::class
     ];
 
     public function getRouteKeyName()
