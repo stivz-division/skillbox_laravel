@@ -16,6 +16,7 @@ class Article extends Model implements HasTags
     protected $fillable = [
         'slug',
         'title',
+        'owner_id',
         'mini_description',
         'description',
         'is_published'
@@ -44,5 +45,10 @@ class Article extends Model implements HasTags
     public function getTags(): Collection
     {
         return $this->tags;
+    }
+
+    public function isOwner(User $user): bool
+    {
+        return $this->owner_id === $user->id;
     }
 }
