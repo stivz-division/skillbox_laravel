@@ -40,8 +40,6 @@ class ArticleController extends Controller
         $article = Article::create($validData);
         $tagsSynchronizer->sync($request->getTags(), $article);
 
-        event(new CreateArticle($article));
-
         return redirect(route('home'))->with('success', 'Статья добавлена');
 
 
@@ -75,12 +73,6 @@ class ArticleController extends Controller
         $tagsSynchronizer->sync($request->getTags(), $article);
         $article->update($validData);
 
-
-        /*
-            Метод updated не срабатывает в Observe
-        */
-        event(new UpdateArticle($article));
-
         return back()->with('success', 'Данные изменены!');
     }
 
@@ -90,13 +82,6 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        /*
-             Метод deleted срабатывает в Observe,
-             но не отпрвляет mail и перенаправляет на уже удаленную статью
-             что вызывает 404 ошибку
-        */
-        event(new DeleteArticle($article));
-
         $article->delete();
         return redirect(route('home'))->with('success', 'Статья удалена');
     }

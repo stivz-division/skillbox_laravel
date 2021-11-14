@@ -23,13 +23,6 @@ class Article extends Model implements HasTags
         'is_published'
     ];
 
-    protected $dispatchesEvents = [
-        /*
-            Не срабатывает также как и в Observe
-        */
-//        'updated' => UpdateArticle::class
-    ];
-
     public function getRouteKeyName()
     {
         return 'slug';

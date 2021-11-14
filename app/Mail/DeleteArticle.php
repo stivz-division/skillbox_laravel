@@ -18,7 +18,7 @@ class DeleteArticle extends Mailable
      * @return void
      */
     public function __construct(
-        public Article $article
+        public array $article
     )
     {
         //

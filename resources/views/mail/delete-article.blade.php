@@ -2,11 +2,11 @@
 # Статья удалена!
 
 <strong>
-    {{ $article->title }}
+    {{ $article['title'] }}
 </strong>
 
 <p>
-    {{ $article->mini_description }}
+    {{ $article['mini_description'] }}
 </p>
 
 Спасибо,<br>

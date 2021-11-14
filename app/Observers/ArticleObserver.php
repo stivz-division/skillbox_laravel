@@ -44,6 +44,9 @@ class ArticleObserver
     public function deleted(Article $article)
     {
         Mail::to(config('app.admin_email'))
-            ->queue(new DeleteArticle($article));
+            ->queue(new DeleteArticle([
+                'title' => $article->title,
+                'mini_description' => $article->mini_description
+            ]));
     }
 }

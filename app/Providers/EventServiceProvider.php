@@ -27,15 +27,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        CreateArticle::class => [
-            SendMailAdminCreateArticleListener::class
-        ],
-        UpdateArticle::class => [
-            SendMailAdminUpdateArticleListener::class
-        ],
-        DeleteArticle::class => [
-            SendMailAdminDeleteArticleListener::class
-        ]
+//        CreateArticle::class => [
+//            SendMailAdminCreateArticleListener::class
+//        ],
+//        UpdateArticle::class => [
+//            SendMailAdminUpdateArticleListener::class
+//        ],
+//        DeleteArticle::class => [
+//            SendMailAdminDeleteArticleListener::class
+//        ]
     ];
 
     /**
@@ -45,6 +45,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        Article::observe(ArticleObserver::class);
+        Article::observe(ArticleObserver::class);
     }
 }
