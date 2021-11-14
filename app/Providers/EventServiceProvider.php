@@ -2,6 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\CreateArticle;
+use App\Events\DeleteArticle;
+use App\Events\UpdateArticle;
+use App\Listeners\SendMailAdminCreateArticleListener;
+use App\Listeners\SendMailAdminDeleteArticleListener;
+use App\Listeners\SendMailAdminUpdateArticleListener;
+use App\Models\Article;
+//use App\Observers\ArticleObserver;
+use App\Observers\ArticleObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +27,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+//        CreateArticle::class => [
+//            SendMailAdminCreateArticleListener::class
+//        ],
+//        UpdateArticle::class => [
+//            SendMailAdminUpdateArticleListener::class
+//        ],
+//        DeleteArticle::class => [
+//            SendMailAdminDeleteArticleListener::class
+//        ]
     ];
 
     /**
@@ -27,6 +45,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Article::observe(ArticleObserver::class);
     }
 }

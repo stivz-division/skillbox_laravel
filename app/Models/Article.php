@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UpdateArticle;
 use App\Models\Contracts\HasTags;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
