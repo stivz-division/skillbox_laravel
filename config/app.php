@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'admin_email' => env('ADMIN_EMAIL'),
+    'admin_email' => env('ADMIN_EMAIL', 'stivz-division@mail.ru'),
 
     'name' => env('APP_NAME', 'Laravel'),
 

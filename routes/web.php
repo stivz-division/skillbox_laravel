@@ -34,5 +34,11 @@ Route::resource('articles', ArticleController::class);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
-Route::get('/admin/feedback', [FeedbackController::class, 'index'])->middleware(['auth'])->name('admin.index');
+
+
+
+Route::name('admin.')->prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class)->only(['index', 'edit', 'update']);
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('index');
+});
 
