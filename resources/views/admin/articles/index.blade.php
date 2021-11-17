@@ -1,6 +1,6 @@
-@extends('layout.master')
+@extends('layout.admin')
 
-@section('title', 'Список статей')
+@section('title', 'Статьи')
 
 @section('content')
     <div class="col-md-8">
@@ -11,7 +11,7 @@
             Список статей
         </h3>
 
-        @each('components.article', $articles, 'article', 'articles.empty')
+        @each('admin.articles.article-item', $articles, 'article', 'articles.empty')
 
     </div>
 @endsection

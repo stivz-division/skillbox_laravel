@@ -6,9 +6,14 @@
     <div class="col-md-8">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             {{ $article->title }}
-            @can('update', $article)
-                <a href="{{ route('articles.edit', $article) }}">Редактировать</a>
-            @endcan
+            @admin
+            <a href="{{ route('admin.articles.edit', $article) }}">Редактировать</a>
+            @else
+                @can('update', $article)
+                    <a href="{{ route('articles.edit', $article) }}">Редактировать</a>
+                @endcan
+            @endadmin
+
         </h3>
 
         <article class="blog-post">

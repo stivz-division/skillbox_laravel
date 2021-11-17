@@ -9,7 +9,7 @@
             @auth
                 <a class="p-2 link-secondary" href="{{ route('articles.create') }}">Создать статью</a>
                 @admin
-                    <a class="p-2 link-secondary" href="{{ route('admin.index') }}">Админ. раздел</a>
+                    <a class="p-2 link-secondary" href="{{ route('admin.articles.index') }}">Админ. раздел</a>
                 @endadmin
             @endauth
         </nav>
