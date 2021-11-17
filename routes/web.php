@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\ArticlePublishController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ContactsController;
@@ -34,5 +35,18 @@ Route::resource('articles', ArticleController::class);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
-Route::get('/admin/feedback', [FeedbackController::class, 'index'])->middleware(['auth'])->name('admin.index');
+
+
+
+Route::name('admin.')->prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class)
+        ->only(['index', 'edit', 'update']);
+
+    Route::patch('/article/{article}/published', [ArticlePublishController::class, 'published'])
+        ->name('article.published');
+    Route::patch('/article/{article}/unpublished', [ArticlePublishController::class, 'unpublished'])
+        ->name('article.unpublished');
+
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('index');
+});
 

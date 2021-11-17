@@ -14,6 +14,7 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['create', 'store']);
+        $this->middleware('can:view,article')->only('show');
         $this->middleware('can:update,article')->only(['edit', 'update']);
         $this->middleware('can:delete,article')->only(['destroy']);
     }
@@ -67,8 +68,6 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, TagsSynchronizer $tagsSynchronizer, Article $article)
     {
-        $this->authorize('update', $article);
-
         $validData = $request->validated();
         $tagsSynchronizer->sync($request->getTags(), $article);
         $article->update($validData);

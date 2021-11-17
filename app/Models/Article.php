@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\UpdateArticle;
 use App\Models\Contracts\HasTags;
+use App\Services\TagsSynchronizer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,16 @@ class Article extends Model implements HasTags
     public function scopePublished(Builder $query)
     {
         $query->where('is_published', true);
+    }
+
+    public function setPublished($status = true)
+    {
+        $this->update(['is_published' => $status]);
+    }
+
+    public function setUnpublished()
+    {
+        $this->setPublished(false);
     }
 
     public function scopeSlug(Builder $builder, $slug)
