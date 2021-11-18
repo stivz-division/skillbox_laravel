@@ -32,7 +32,7 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         Blade::if('admin', function () {
-            return auth()->user()->isAdmin();
+            return auth()->check() && auth()->user()->isAdmin();
         });
     }
 }
