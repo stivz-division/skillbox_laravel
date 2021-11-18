@@ -10,9 +10,9 @@ class ArticlePolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Article $article)
+    public function view(?User $user, Article $article)
     {
-        return $article->isOwner($user) || $article->is_published;
+        return ($user && $article->isOwner($user)) || $article->is_published;
     }
 
     public function update(User $user, Article $article)
