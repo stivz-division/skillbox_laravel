@@ -6,6 +6,7 @@ use App\Mail\CreateArticle;
 use App\Mail\DeleteArticle;
 use App\Mail\UpdateArticle;
 use App\Models\Article;
+use App\Services\PushAll;
 use Illuminate\Support\Facades\Mail;
 
 class ArticleObserver
@@ -19,6 +20,8 @@ class ArticleObserver
      */
     public function created(Article $article)
     {
+        push_all('Новая статья!', $article->title);
+
         Mail::to(config('app.admin_email'))
             ->queue(new CreateArticle($article));
     }
