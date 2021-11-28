@@ -63,4 +63,9 @@ class Article extends Model implements HasTags
     {
         return $this->owner_id === $user->id;
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

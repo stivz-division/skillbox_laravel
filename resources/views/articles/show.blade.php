@@ -4,6 +4,8 @@
 
 @section('content')
     <div class="col-md-8">
+        @include('layout.success')
+        @include('layout.errors')
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             {{ $article->title }}
             @admin
@@ -26,6 +28,18 @@
 
         <div>
             @each('articles.includes.tag', $article->tags, 'tag')
+        </div>
+
+        <hr>
+
+        @include('articles.includes.add-comment')
+
+        <div class="row g-3 mt-3">
+            @forelse($article->comments as $comment)
+                @include('articles.includes.comments')
+            @empty
+                @include('articles.includes.empty-comments')
+            @endforelse
         </div>
 
         <hr>

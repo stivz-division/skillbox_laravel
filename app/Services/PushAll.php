@@ -12,12 +12,12 @@ class PushAll
     private string $apiUrl = 'https://pushall.ru/api.php';
 
     /**
-     * @param string $apiKey
-     * @param string $id
+     * @param string|null $apiKey
+     * @param string|null $id
      */
     public function __construct(
-        private string $apiKey,
-        private string $id
+        private ?string $apiKey,
+        private ?string $id
     )
     {
     }
