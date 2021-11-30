@@ -3,7 +3,7 @@
         <h3>История изменений:</h3>
     @endif
     <p>
-        {{ $editor->email }} - {{ $editor->pivot->created_at->diffForHumans() }} - {{ $editor->pivot->before }}
+        {{ $editor->email }} - {{ $editor->pivot->before }}
         - {{ $editor->pivot->after }}
     </p>
 @empty

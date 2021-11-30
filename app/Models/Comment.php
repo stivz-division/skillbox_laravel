@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\HistoriesPivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -26,8 +27,8 @@ class Comment extends Model
         static::updating(function (Comment $comment) {
             $after = $comment->getDirty();
             $comment->histories()->attach(auth()->id(), [
-                'before' => json_encode(Arr::only($comment->fresh()->toArray(), array_keys($after))),
-                'after' => json_encode($after)
+                'before' => Arr::only($comment->fresh()->toArray(), array_keys($after)),
+                'after' => $after
             ]);
         });
 
@@ -41,6 +42,7 @@ class Comment extends Model
     public function histories()
     {
         return $this->belongsToMany(User::class, 'comment_histories')
+            ->using(HistoriesPivot::class)
             ->withPivot(['before', 'after'])->withTimestamps();
     }
 }
