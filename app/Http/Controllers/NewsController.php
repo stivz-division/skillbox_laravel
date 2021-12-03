@@ -14,20 +14,18 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::latest()->cursorPaginate(10);
+        $news = News::latest()->simplePaginate(10);
         return view('news.index', compact('news'));
     }
 
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param News $news
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show(News $news)
     {
-        //
+        return view('news.show', compact('news'));
     }
 
 }

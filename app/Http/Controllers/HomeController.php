@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $articles = Article::published()->with('tags')->latest()->cursorPaginate(10);
+        $articles = Article::published()->with('tags')->latest()->simplePaginate(10);
         return view('home', compact('articles'));
     }
 }

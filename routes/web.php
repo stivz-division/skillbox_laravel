@@ -41,12 +41,11 @@ Route::resource('news', NewsController::class)->only(['index', 'show']);
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
 
-
-
-
 Route::name('admin.')->prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class)
         ->only(['index', 'edit', 'update']);
+
+    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class)->except(['show']);
 
     Route::patch('/article/{article}/published', [ArticlePublishController::class, 'published'])
         ->name('article.published');
