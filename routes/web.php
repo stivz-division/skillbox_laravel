@@ -7,6 +7,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,8 @@ Route::name('contacts.')->prefix('contacts')->group(function() {
 
 Route::resource('articles', ArticleController::class);
 Route::resource('articles.comments', CommentController::class)->only(['store', 'edit', 'update']);
+
+Route::resource('news', NewsController::class)->only(['index', 'show']);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 

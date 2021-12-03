@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
+use App\Models\News;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
@@ -28,6 +29,10 @@ class DatabaseSeeder extends Seeder
             ])->each(function ($article) {
                 $article->tags()->attach(Tag::query()->inRandomOrder()->limit(3)->get());
             });
+
+            News::factory(15)->create([
+                'author_id' => $user->id
+            ]);
         });
     }
 }

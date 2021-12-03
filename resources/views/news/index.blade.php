@@ -1,6 +1,6 @@
 @extends('layout.master')
 
-@section('title', 'Список статей')
+@section('title', 'Список новостей')
 
 @section('content')
     <div class="col-md-8">
@@ -8,13 +8,13 @@
         @include('layout.success')
 
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
-            Список статей
+            Список новостей
         </h3>
 
 
-        @each('components.article', $articles, 'article', 'articles.empty')
+        @each('news.news', $news, 'content', 'news.empty')
 
-        {{ $articles->links() }}
+        {{ $news->links() }}
 
 
     </div>
