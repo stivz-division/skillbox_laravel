@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ArticlePublishController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TagController;
@@ -32,8 +33,10 @@ Route::name('contacts.')->prefix('contacts')->group(function() {
 });
 
 Route::resource('articles', ArticleController::class);
+Route::resource('articles.comments', CommentController::class)->only(['store', 'edit', 'update']);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
+
 
 
 
