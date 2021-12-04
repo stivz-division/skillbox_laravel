@@ -13,5 +13,7 @@
 
         @each('admin.articles.article-item', $articles, 'article', 'articles.empty')
 
+        {{ $articles->links() }}
+
     </div>
 @endsection
