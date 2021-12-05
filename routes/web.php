@@ -4,10 +4,12 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ArticlePublishController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ArticleCommentsController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsCommentsController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,12 +36,15 @@ Route::name('contacts.')->prefix('contacts')->group(function() {
 });
 
 Route::resource('articles', ArticleController::class);
-Route::resource('articles.comments', CommentController::class)->only(['store', 'edit', 'update']);
+Route::resource('articles.comments', ArticleCommentsController::class)->only(['store', 'edit', 'update']);
 
 Route::resource('news', NewsController::class)->only(['index', 'show']);
+Route::resource('news.comments', NewsCommentsController::class)->only(['store', 'edit', 'update']);
 
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
 
+
+Route::get('statistics', [StatisticController::class, 'index']);
 
 Route::name('admin.')->prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class)

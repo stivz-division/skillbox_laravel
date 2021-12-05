@@ -10,6 +10,7 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         $articles = $tag->articles;
-        return view('home', compact('articles'));
+        $news = $tag->news;
+        return view('tags.index', compact('articles', 'news'));
     }
 }

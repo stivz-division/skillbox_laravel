@@ -17,6 +17,7 @@
             @method('PATCH')
             @include('articles.includes.title', ['value' => $news->title])
             @include('articles.includes.description', ['value' => $news->description])
+            @include('articles.includes.tags', ['value' => $news->tags->pluck('name')->implode(',')])
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
 

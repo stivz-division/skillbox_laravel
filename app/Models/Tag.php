@@ -18,9 +18,19 @@ class Tag extends Model
         return 'name';
     }
 
+    public function taggable()
+    {
+        return $this->morphTo('taggable');
+    }
+
     public function articles()
     {
-        return $this->belongsToMany(Article::class)
+        return $this->morphedByMany(Article::class, 'taggable')
             ->with('tags');
+    }
+
+    public function news()
+    {
+        return $this->morphedByMany(News::class, 'taggable');
     }
 }

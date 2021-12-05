@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->roles->where('name', 'Администратор')->isNotEmpty();
     }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'owner_id');
+    }
 }

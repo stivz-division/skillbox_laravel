@@ -20,7 +20,7 @@ class ArticleObserver
      */
     public function created(Article $article)
     {
-        push_all('Новая статья!', $article->title);
+//        push_all('Новая статья!', $article->title);
 
         Mail::to(config('app.admin_email'))
             ->queue(new CreateArticle($article));

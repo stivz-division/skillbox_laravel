@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\TagRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewsRequest extends FormRequest
 {
+    use TagRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,7 +28,8 @@ class NewsRequest extends FormRequest
     {
         return [
             'title' => 'required|min:5|max:100',
-            'description' => 'required'
+            'description' => 'required',
+            'tags' => 'nullable|string'
         ];
     }
 }

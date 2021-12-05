@@ -1,6 +1,6 @@
 @auth
     <h3>Оставить комментарий</h3>
-    <form action="{{ route('articles.comments.store', $article) }}" method="POST">
+    <form action="{{ $routeStore }}" method="POST">
         @csrf
         @include('articles.includes.comment')
         <input class="btn btn-primary" type="submit" value="Добавить">

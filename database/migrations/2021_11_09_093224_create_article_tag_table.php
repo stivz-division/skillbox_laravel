@@ -13,10 +13,11 @@ class CreateArticleTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_tag', function (Blueprint $table) {
+        Schema::create('taggables', function (Blueprint $table) {
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('article_id')->constrained()->cascadeOnDelete();
-            $table->primary(['tag_id', 'article_id']);
+//            $table->foreignId('article_id')->constrained()->cascadeOnDelete();
+            $table->morphs('taggable');
+            $table->primary(['tag_id', 'taggable_type', 'taggable_id']);
         });
     }
 

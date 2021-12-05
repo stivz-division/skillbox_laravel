@@ -1,6 +1,6 @@
 @extends('layout.master')
 
-@section('title', $article->title)
+@section('title', 'Редактирование комментария')
 
 @section('content')
     <div class="col-md-8">
@@ -9,7 +9,7 @@
 
         <h3>Редактирование комментария</h3>
 
-        <form action="{{ route('articles.comments.update', [$article, $comment]) }}" method="POST">
+        <form action="{{ $routeUpdate }}" method="POST">
             @method('PUT')
             @csrf
             @include('articles.includes.comment', [
@@ -24,6 +24,6 @@
 
         <hr>
 
-        <a href="{{ route('articles.show', $article) }}">Вернуть к статье</a>
+        <a href="{{ $routeBack }}">Вернуть назад</a>
     </div>
 @endsection

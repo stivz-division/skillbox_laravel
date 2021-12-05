@@ -7,7 +7,7 @@
             {{ $comment->comment }}
         </div>
         <div class="card-footer">
-            <a class="btn btn-primary" href="{{ route('articles.comments.edit', [$article, $comment]) }}">Редактировать</a>
+            <a class="btn btn-primary" href="{{ $routeEdit }}">Редактировать</a>
         </div>
     </div>
 </div>

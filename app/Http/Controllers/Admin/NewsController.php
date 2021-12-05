@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
+use App\Services\TagsSynchronizer;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -30,11 +31,12 @@ class NewsController extends Controller
      * @param NewsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(NewsRequest $request)
+    public function store(NewsRequest $request, TagsSynchronizer $tagsSynchronizer)
     {
         $newNews['author_id'] = auth()->id();
         $newNews = $newNews + $request->validated();
-        News::create($newNews);
+        $news = News::create($newNews);
+        $tagsSynchronizer->sync($request->getTags(), $news);
         return back()->with('success', 'Новость добавлена.');
     }
 
@@ -51,9 +53,10 @@ class NewsController extends Controller
      * @param NewsRequest $request
      * @param News $news
      */
-    public function update(NewsRequest $request, News $news)
+    public function update(NewsRequest $request, News $news, TagsSynchronizer $tagsSynchronizer)
     {
         $news->update($request->validated());
+        $tagsSynchronizer->sync($request->getTags(), $news);
         return back()->with('success', 'Новость изменена.');
     }
 

@@ -15,6 +15,11 @@ class Comment extends Model
         'author_id', 'article_id', 'comment'
     ];
 
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');

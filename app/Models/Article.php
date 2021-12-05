@@ -31,7 +31,7 @@ class Article extends Model implements HasTags
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function scopePublished(Builder $query)
@@ -66,6 +66,6 @@ class Article extends Model implements HasTags
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

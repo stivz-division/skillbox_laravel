@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\TagRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 
 class ArticleRequest extends FormRequest
 {
+    use TagRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -32,10 +35,5 @@ class ArticleRequest extends FormRequest
             'is_published' => 'required|in:1,0',
             'tags' => 'nullable|string'
         ];
-    }
-
-    public function getTags(): Collection
-    {
-        return collect(explode(',', $this->tags));
     }
 }
