@@ -7,7 +7,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class ArticleCommentsController extends Controller
 {
     /**
      * @param CommentRequest $request
@@ -31,7 +31,9 @@ class CommentController extends Controller
      */
     public function edit(Article $article, Comment $comment)
     {
-        return view('articles.comments.edit', compact('article', 'comment'));
+        $routeUpdate = route('articles.comments.update', [$article, $comment]);
+        $routeBack = route('articles.show', $article);
+        return view('articles.comments.edit', compact('routeUpdate', 'routeBack', 'comment'));
     }
 
     /**

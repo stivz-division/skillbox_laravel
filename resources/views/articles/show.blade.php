@@ -14,7 +14,7 @@
                 @can('update', $article)
                     <a href="{{ route('articles.edit', $article) }}">Редактировать</a>
                 @endcan
-            @endadmin
+                @endadmin
 
         </h3>
 
@@ -32,18 +32,22 @@
 
         <hr>
 
-        @include('articles.includes.add-comment')
+        @include('articles.includes.add-comment', [
+            'routeStore' => route('articles.comments.store', $article)
+        ])
 
         <div class="row g-3 mt-3">
-            @forelse($article->comments as $comment)
-                @include('articles.includes.comments')
-            @empty
-                @include('articles.includes.empty-comments')
-            @endforelse
-        </div>
+    @forelse($article->comments as $comment)
+        @include('articles.includes.comments', [
+            'routeEdit' => route('articles.comments.edit', [$article, $comment])
+        ])
+    @empty
+        @include('articles.includes.empty-comments')
+    @endforelse
+</div>
 
-        <hr>
+<hr>
 
-        <a href="{{ route('home') }}">Вернуть к списку статей</a>
-    </div>
+<a href="{{ route('home') }}">Вернуть к списку статей</a>
+</div>
 @endsection

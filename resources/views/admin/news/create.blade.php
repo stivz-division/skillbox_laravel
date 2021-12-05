@@ -16,6 +16,7 @@
             @csrf
             @include('articles.includes.title')
             @include('articles.includes.description')
+            @include('articles.includes.tags')
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
 
