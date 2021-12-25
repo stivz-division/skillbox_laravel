@@ -12,7 +12,14 @@
         @include('layout.success')
         @include('layout.errors')
 
-        <form action="{{ route('articles.update', $article) }}" method="post">
+        <form
+            @admin
+                action="{{ route('admin.articles.update', $article) }}"
+            @else
+                action="{{ route('articles.update', $article) }}"
+            @endadmin
+            method="post"
+        >
             @csrf
             @method('PATCH')
             @include('articles.includes.slug', ['value' => $article->slug])
