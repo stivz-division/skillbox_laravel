@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $articles = Cache::tags(['articles'])
+        $articles = Cache::tags(['articles', 'tags'])
             ->remember('articles|' . \request('page', 1), 3600 * 24, function () {
                 return Article::published()->with('tags')->latest()->simplePaginate(10);
             });
