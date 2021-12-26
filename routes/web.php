@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ArticlePublishController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\Reports\ResultController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleCommentsController;
 use App\Http\Controllers\ContactsController;
@@ -58,5 +59,11 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'admin'])->group(fun
         ->name('article.unpublished');
 
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('index');
+
+    Route::name('reports.')->prefix('reports')->group(function () {
+        Route::get('/results', [ResultController::class, 'index'])->name('results.index');
+        Route::post('/results', [ResultController::class, 'report'])->name('results.report');
+    });
+
 });
 
