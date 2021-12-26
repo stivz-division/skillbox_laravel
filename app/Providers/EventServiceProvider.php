@@ -10,7 +10,15 @@ use App\Listeners\SendMailAdminDeleteArticleListener;
 use App\Listeners\SendMailAdminUpdateArticleListener;
 use App\Models\Article;
 //use App\Observers\ArticleObserver;
+use App\Models\Comment;
+use App\Models\News;
+use App\Models\Tag;
+use App\Models\User;
 use App\Observers\ArticleObserver;
+use App\Observers\CommentObserver;
+use App\Observers\NewsObserver;
+use App\Observers\TagsObserver;
+use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -46,5 +54,9 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Article::observe(ArticleObserver::class);
+        News::observe(NewsObserver::class);
+        Tag::observe(TagsObserver::class);
+        Comment::observe(CommentObserver::class);
+        User::observe(UserObserver::class);
     }
 }

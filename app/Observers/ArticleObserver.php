@@ -8,6 +8,7 @@ use App\Mail\DeleteArticle;
 use App\Mail\UpdateArticle;
 use App\Models\Article;
 use App\Services\PushAll;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class ArticleObserver
@@ -21,6 +22,7 @@ class ArticleObserver
      */
     public function created(Article $article)
     {
+        Cache::tags(['articles'])->flush();
 //        push_all('Новая статья!', $article->title);
 
         Mail::to(config('app.admin_email'))
@@ -35,6 +37,7 @@ class ArticleObserver
      */
     public function updated(Article $article)
     {
+        Cache::tags(['articles'])->flush();
         Mail::to(config('app.admin_email'))
             ->queue(new UpdateArticle($article));
     }
@@ -56,6 +59,7 @@ class ArticleObserver
      */
     public function deleted(Article $article)
     {
+        Cache::tags(['articles'])->flush();
         Mail::to(config('app.admin_email'))
             ->queue(new DeleteArticle([
                 'title' => $article->title,

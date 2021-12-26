@@ -8,13 +8,14 @@ use App\Events\UpdateArticle;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\TagsSynchronizer;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth')->only(['create', 'store']);
-        $this->middleware('can:view,article')->only('show');
         $this->middleware('can:update,article')->only(['edit', 'update']);
         $this->middleware('can:delete,article')->only(['destroy']);
     }
@@ -46,9 +47,16 @@ class ArticleController extends Controller
 
     }
 
-    public function show(Article $article)
+    public function show($article)
     {
-        $article->load(['comments', 'comments.author']);
+        $article = Cache::tags(['articles', 'comments', 'users'])->remember('article|' . $article, 3600 * 24, function () use ($article) {
+            return Article::with(['comments', 'comments.author'])
+                ->where('slug', $article)
+                ->firstOrFail();
+        });
+
+        $this->authorize('view', $article);
+
         return view('articles.show', compact('article'));
     }
 

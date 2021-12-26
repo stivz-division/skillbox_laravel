@@ -4,28 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        $news = News::latest()->simplePaginate(10);
+        $news = Cache::tags(['news'])->remember('news|' . \request('page', 1), 3600 * 24, function () {
+            return News::latest()->simplePaginate(10);
+        });
+
         return view('news.index', compact('news'));
     }
 
 
     /**
-     * @param News $news
+     * @param $news
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(News $news)
+    public function show($news)
     {
-        $news->load(['comments', 'comments.author']);
+        $news = Cache::tags(['news'])->remember('load_news|' . $news, 3600 * 24, function () use ($news) {
+            return News::with(['comments', 'comments.author'])
+                ->findOrFail($news);
+        });
+
         return view('news.show', compact('news'));
     }
 
