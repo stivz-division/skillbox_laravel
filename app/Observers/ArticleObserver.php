@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\ArticleInformer;
 use App\Mail\CreateArticle;
 use App\Mail\DeleteArticle;
 use App\Mail\UpdateArticle;
@@ -36,6 +37,15 @@ class ArticleObserver
     {
         Mail::to(config('app.admin_email'))
             ->queue(new UpdateArticle($article));
+    }
+
+    /**
+     * @param Article $article
+     * @return void
+     */
+    public function updating(Article $article)
+    {
+        ArticleInformer::dispatch($article, $article->getDirty());
     }
 
     /**

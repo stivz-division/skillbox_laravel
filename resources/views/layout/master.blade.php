@@ -144,12 +144,13 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
 
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 <body>
 
 @include('layout.nav')
 
-<main class="container">
+<main class="container" id="app">
     <div class="row g-5">
 
         @yield('content')
@@ -159,6 +160,10 @@
         @show
 
     </div>
+
+    @admin
+        <article-informer></article-informer>
+    @endadmin
 
 </main>
 
